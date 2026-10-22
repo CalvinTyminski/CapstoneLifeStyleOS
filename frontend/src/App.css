@@ -74,6 +74,7 @@ button {
 
 .login-card input {
   width: 100%;
+  color: black;
   background-color: whitesmoke;
   border: 1px solid hsl(240, 23%, 95%);
   border-radius: 10px;
