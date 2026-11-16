@@ -8,6 +8,7 @@ from sqlalchemy import (
     ForeignKey,
     Numeric,
     String,
+    UniqueConstraint,
     Uuid,
     func,
 )
@@ -27,6 +28,11 @@ class LedgerEntry(Base):
         CheckConstraint(
             "event_type IN ('DEPOSIT', 'REWARD', 'PURCHASE')",
             name="ck_ledger_event_type",
+        ),
+        UniqueConstraint(
+            "wallet_id",
+            "idempotency_key",
+            name="uq_ledger_wallet_idempotency",
         ),
     )
 
@@ -60,4 +66,9 @@ class LedgerEntry(Base):
         DateTime(timezone=True),
         server_default=func.now(),
         nullable=False,
+    )
+
+    idempotency_key: Mapped[str | None] = mapped_column(
+        String(64),
+        nullable=True,
     )
