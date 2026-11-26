@@ -1,6 +1,9 @@
-
 from datetime import date
+from datetime import datetime
+from decimal import Decimal
+from uuid import UUID
 
+from pydantic import ConfigDict
 from pydantic import BaseModel, Field, model_validator
 
 
@@ -16,3 +19,24 @@ class GoalCreate(BaseModel):
         if self.end_date is not None and self.end_date < self.start_date:
             raise ValueError("End date cannot be before start date")
         return self
+    
+    
+class GoalResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    name: str
+    type: str
+    start_date: date
+    end_date: date | None
+    reward_amount: Decimal
+    completed: bool
+
+
+class GoalCompletionResponse(BaseModel):
+    goal_id: int
+    transaction_id: UUID
+    reward_amount: Decimal
+    balance: Decimal
+    already_completed: bool
+
