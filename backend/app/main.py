@@ -5,6 +5,7 @@ from app.db.session import engine
 from app.api.auth import router as auth_router
 from app.api.wallet import router as wallet_router
 from app.api.store import router as store_router
+from app.api.goals import router as goals_router
 
 app = FastAPI(
     title="Lifestyle OS API",
@@ -14,6 +15,7 @@ app = FastAPI(
 app.include_router(auth_router)
 app.include_router(wallet_router)
 app.include_router(store_router)
+app.include_router(goals_router)
 
 @app.get("/api/health")
 def health_check():
